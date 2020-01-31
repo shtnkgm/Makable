@@ -47,8 +47,10 @@
     var computed: Int {
       return 0
     }
+    let names: [String]
     var defaultVar: Int = 0
     let defaultLet: Int = 0
+    var noTypeAnotation = 0
 }`
       },
       computed: {
@@ -75,18 +77,22 @@
         factoryMethod: function(text) {
           lines = text.split("\n")
           parameters = lines
-            .join("\n    ")
-            .replace(/Bool$/g, 'Bool = false') // Bool
-            .replace(/Int$/g, 'Int = 0') // Int
-            .replace(/String$/g, 'String = ""') // String
-            .replace(/(: .*\?).*/g, '$1 = nil') // optional
-            .replace(/: ([a-z|A-Z|0-9]*$)/g, ': $1 = $1()') // custom type
+            .map(line => line
+              .replace(/Bool$/g, 'Bool = false') // Bool
+              .replace(/(Int|Float|Double)$/g, '$1 = 0') // Int
+              .replace(/String$/g, 'String = ""') // String
+              .replace(/\[([a-z|A-Z|0-9]*)\]$/g, '[$1] = []') // Collection
+              .replace(/(: .*\?).*/g, '$1 = nil') // optional
+              .replace(/: ([a-z|A-Z|0-9]*$)/g, ': $1 = $1()') // custom type
+              .trim()
+            ) 
+            .join(',\n')
           body = lines
+            .map(line => line
+              .replace(/:.*/g, '') // type anotation
+              // .map(str =>　str + ": "+ str)
+            )
             .join("\n")
-            .replace(/:.*/g, '')
-            .split("\n")
-            .map(str =>　str + ": "+ str)
-            .join("\n        ")
           return `static func make(
      ${parameters}
     ) -> ${this.typeName} {
