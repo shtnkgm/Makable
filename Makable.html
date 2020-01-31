@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Makable</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<style>
+  textarea {
+      width: 500px;
+      height: 200px;
+  }
+</style>
+</head>
+<body style="background-color: #ffffff;">
+
+<div id="app">
+  <h1>Makable</h1>
+  <h3>Source Code</h3>
+  <textarea v-model="text" placeholder="プロパティの行を入力して下さい"></textarea>
+  <h3>Memberwise Initializer</h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
+  </p>
+  <h3>Factory Method</h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint"><code>{{ text | remove | factoryMethod }}</code></pre>
+  </p>
+  <h3>Equatable</h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
+  </p>
+  <h3>Debug</h3>
+  <p><pre class="prettyprint"><code>typeName: {{ typeName }}</code></p>
+</div>
+
+<script>
+  new Vue({
+      el: '#app',
+      data: {
+        text: `public final class Item: ItemProtocol {
+    @objc private let isActive: Bool // コメントあり
+      private var number: Int
+    internal var aaa: Int?
+    open let name: String
+    fileprivate let hoge: Hoge
+    var computed: Int {
+      return 0
+    }
+    var defaultVar: Int = 0
+    let defaultLet: Int = 0
+}`
+      },
+      computed: {
+        typeName() {
+          return this.text
+            .replace(/(class|struct) ([a-z|A-Z|0-9]+)/g, '$2')
+        }
+      },
+      filters: {
+        remove: function(text) {
+          return text
+          .split("\n")
+          .filter(line => !line.includes('class') || !line.includes('struct')) // type definition
+          .filter(line => !line.includes('{')) // computed property
+          .filter(line => !(line.includes('let') && line.includes('=')))
+          .filter(line => line.includes('var') || line.includes('let'))
+          .map(line => line.replace(/\/\/.*/g,'')) // comment
+          .map(line => line.replace(/@[a-z|A-Z]* /g, '')) // attribute
+          .map(line => line.replace(/(open|fileprivate|private|internal) /g, '')) // access control
+          .map(line => line.replace(/(let|var) /g, '')) // let var
+          .map(line => line.trim())
+          .join("\n")
+        },
+        factoryMethod: function(text) {
+          lines = text.split("\n")
+          parameters = lines
+            .join("\n    ")
+            .replace(/Bool$/g, 'Bool = false') // Bool
+            .replace(/Int$/g, 'Int = 0') // Int
+            .replace(/String$/g, 'String = ""') // String
+            .replace(/(: .*\?).*/g, '$1 = nil') // optional
+            .replace(/: ([a-z|A-Z|0-9]*$)/g, ': $1 = $1()') // custom type
+          body = lines
+            .join("\n")
+            .replace(/:.*/g, '')
+            .split("\n")
+            .map(str =>　str + ": "+ str)
+            .join("\n        ")
+          return `static func make(
+     ${parameters}
+    ) -> ${this.typeName} {
+      return ${this.typeName}(
+        ${body}
+  )
+}` 
+        }
+      }
+  });
+</script>
+
+</body>
+</html>
