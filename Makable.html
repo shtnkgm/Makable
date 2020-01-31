@@ -20,7 +20,7 @@
   <textarea v-model="text" placeholder="past your code here"></textarea>
   <h3>Factory Method</h3>
   <p style="white-space: pre-line">
-    <pre class="prettyprint"><code>{{ text | remove | factoryMethod }}</code></pre>
+    <pre class="prettyprint"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
   </p>
   <!-- <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
@@ -38,7 +38,7 @@
   new Vue({
       el: '#app',
       data: {
-        text: `public final class TypeName: ProtocolName {
+        text: `public final class MyClass: MyProtocol {
     // comment
     @objc private let boolValue: Bool // comment
     private var intValue: Int
@@ -80,7 +80,7 @@
           .map(line => line.trim())
           .join("\n")
         },
-        factoryMethod: function(text) {
+        factoryMethod: function(text, typeName) {
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -100,7 +100,6 @@
             )
             .map(line => line + " = " + line)
             .join(",\n            ")
-          typeName = "Hoge"
           return `extension ${typeName} {
     static func make(
         ${parameters}
