@@ -17,7 +17,7 @@
 <div id="app">
   <h1>Makable</h1>
   <h3>Source Code</h3>
-  <textarea v-model="text" placeholder="プロパティの行を入力して下さい"></textarea>
+  <textarea v-model="text" placeholder="past your code here"></textarea>
   <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
@@ -38,17 +38,17 @@
   new Vue({
       el: '#app',
       data: {
-        text: `public final class Item: ItemProtocol {
-    @objc private let isActive: Bool // comment
-    private var number: Int
-    internal var aaa: Int?
-    open let name: String
-    fileprivate let hoge: Hoge
-    var computed: Int {
+        text: `public final class TypeName: ProtocolName {
+    @objc private let boolValue: Bool // comment
+    private var intValue: Int
+    internal var optionalValue: Int?
+    open let stringValue: String
+    fileprivate let customType: CustomType
+    var computedPropety: Int {
       return 0
     }
-    let names: [String]
-    let nameSpace: [Hoge.Fuga]
+    let collection: [String]
+    let collectionWithNameSpace: [Hoge.Fuga]
     var defaultVar: Int = 0
     let defaultLet: Int = 0
     var noTypeAnotation = 0
@@ -69,7 +69,7 @@
           .filter(line => !(line.includes('let') && line.includes('=')))
           .filter(line => line.includes('var') || line.includes('let'))
           .map(line => line.replace(/\/\/.*/g,'')) // comment
-          .map(line => line.replace(/@[a-z|A-Z]* /g, '')) // attribute
+          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, '')) // attribute
           .map(line => line.replace(/(open|fileprivate|private|internal) /g, '')) // access control
           .map(line => line.replace(/(let|var) /g, '')) // let var
           .map(line => line.trim())
@@ -87,15 +87,18 @@
               .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()') // custom type
               .trim()
             ) 
-            .join(',\n')
+            .join(',\n    ')
           body = lines
-            .map(line => line.replace(/:.*/g, '') + " = " + line.replace(/:.*/g, '')
+            .map(line => line
+              .replace(/:.*/g, '')
+              .replace(/ =.*/g, '')
             )
-            .join(",\n")
+            .map(line => line + " = " + line)
+            .join(",\n        ")
           return `static func make(
-     ${parameters}
+    ${parameters}
     ) -> ${this.typeName} {
-      return ${this.typeName}(
+    return ${this.typeName}(
         ${body}
   )
 }` 
