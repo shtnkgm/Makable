@@ -43,6 +43,7 @@
     private var intValue: Int
     internal var optionalValue: Int?
     open let stringValue: String
+    open let dateValue: Date
     fileprivate let customType: CustomType
     var computedPropety: Int {
       return 0
@@ -87,20 +88,22 @@
               .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()') // custom type
               .trim()
             ) 
-            .join(',\n    ')
+            .join(',\n        ')
           body = lines
             .map(line => line
               .replace(/:.*/g, '')
               .replace(/ =.*/g, '')
             )
             .map(line => line + " = " + line)
-            .join(",\n        ")
-          return `static func make(
-    ${parameters}
-    ) -> ${this.typeName} {
-    return ${this.typeName}(
-        ${body}
-  )
+            .join(",\n            ")
+          return `extension ${this.typeName} {
+    static func make(
+        ${parameters}
+        ) -> ${this.typeName} {
+        return ${this.typeName}(
+            ${body}
+        )
+    }
 }` 
         }
       }
