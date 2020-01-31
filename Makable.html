@@ -7,8 +7,8 @@
 <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 <style>
   textarea {
-      width: 500px;
-      height: 200px;
+      width: 400px;
+      height: 100px;
   }
 </style>
 </head>
@@ -18,18 +18,18 @@
   <h1>Makable</h1>
   <h3>Source Code</h3>
   <textarea v-model="text" placeholder="past your code here"></textarea>
-  <h3>Memberwise Initializer</h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
-  </p>
   <h3>Factory Method</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove | factoryMethod }}</code></pre>
   </p>
-  <h3>Equatable</h3>
+  <!-- <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
   </p>
+  <h3>Equatable</h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
+  </p> -->
   <h3>Debug</h3>
   <p><pre class="prettyprint"><code>typeName: {{ typeName }}</code></p>
 </div>
@@ -39,6 +39,7 @@
       el: '#app',
       data: {
         text: `public final class TypeName: ProtocolName {
+    // comment
     @objc private let boolValue: Bool // comment
     private var intValue: Int
     internal var optionalValue: Int?
@@ -58,7 +59,10 @@
       computed: {
         typeName() {
           return this.text
-            .replace(/(class|struct) ([a-z|A-Z|0-9]+)/g, '$2')
+            .split("\n")
+            .filter(line => line.includes('class') || line.includes('struct') )
+            .join("")
+            .replace(/.*(class|struct) ([a-z|A-Z|0-9]+).*/g, '$2')
         }
       },
       filters: {
