@@ -100,11 +100,12 @@
             )
             .map(line => line + " = " + line)
             .join(",\n            ")
-          return `extension ${this.typeName} {
+          typeName = "Hoge"
+          return `extension ${typeName} {
     static func make(
         ${parameters}
-    ) -> ${this.typeName} {
-        return ${this.typeName}(
+    ) -> ${typeName} {
+        return ${typeName}(
             ${body}
         )
     }
