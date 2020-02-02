@@ -24,7 +24,7 @@
   </p>
   <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
-    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
+    <pre class="prettyprint"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
   </p>
   <h3>Equatable</h3>
   <p style="white-space: pre-line">
@@ -90,6 +90,7 @@
               .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
               .replace(/(: .*\?).*/g, '$1 = nil') // optional
               .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()') // custom type
+              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
               .trim()
             ) 
             .join(',\n        ')
@@ -107,6 +108,30 @@
         return ${typeName}(
             ${body}
         )
+    }
+}` 
+        },
+        memberwiseInitializer: function(text, typeName) {
+          lines = text.split("\n")
+          parameters = lines
+            .map(line => line
+              .replace(/ =.*/g, '') // remove default value
+              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+              .trim()
+            )
+            .join(',\n        ')
+          body = lines
+            .map(line => line
+              .replace(/:.*/g, '')
+              .replace(/ =.*/g, '')
+            )
+            .map(line => "self." + line + " = " + line)
+            .join("\n        ")
+          return `extension ${typeName} {
+    static func make(
+        ${parameters}
+    ) -> ${typeName} {
+        ${body}
     }
 }` 
         }
