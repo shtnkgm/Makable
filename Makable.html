@@ -128,9 +128,9 @@
             .map(line => "self." + line + " = " + line)
             .join("\n        ")
           return `extension ${typeName} {
-    static func make(
+    init(
         ${parameters}
-    ) -> ${typeName} {
+    ) {
         ${body}
     }
 }` 
