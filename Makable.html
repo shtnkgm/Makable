@@ -30,6 +30,7 @@
 <div id="app" class="uk-container">
   <h1>Swift Code Generator</h1>
   <h3>Source Code</h3>
+  <button v-on:click="demoOnClick">Demo</button><button v-on:click="clearOnClick">Clear</button>
   <textarea class="uk-textarea" v-model="text" placeholder="past your code here"></textarea>
   <h3>Factory Method</h3>
   <p style="white-space: pre-line">
@@ -53,7 +54,8 @@
   var app = new Vue({
       el: '#app',
       data: {
-        text: `public final class MyClass: MyProtocol {
+        text: '',
+        demo: `public final class MyClass: MyProtocol {
     // comment
     @objc private let boolValue: Bool // comment
     private var intValue: Int
@@ -82,6 +84,14 @@
             .replace(/.*(class|struct) ([a-z|A-Z|0-9]+).*/g, '$2')
         }
       },
+      methods: {
+        demoOnClick: function(event) {
+          this.text = this.demo
+        },
+        clearOnClick: function(event) {
+          this.text = ''
+        }
+      },
       filters: {
         remove: function(text) {
           return text
@@ -98,7 +108,7 @@
           .join("\n")
         },
         factoryMethod: function(text, typeName) {
-          if (text.length == 0) { return "" }
+          if (text.length == 0) { return "\n" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -132,7 +142,7 @@
 }` 
         },
         memberwiseInitializer: function(text, typeName) {
-          if (text.length == 0) { return "" }
+          if (text.length == 0) { return "\n" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -158,7 +168,7 @@
 }` 
         },
         equatable: function(text, typeName) {
-          if (text.length == 0) { return "" }
+          if (text.length == 0) { return "\n" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -182,7 +192,7 @@
 }` 
         },
         matchable: function(text, typeName) {
-          if (text.length == 0) { return "" }
+          if (text.length == 0) { return "\n" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
