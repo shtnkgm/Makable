@@ -52,6 +52,7 @@
     var defaultVar: Int = 1
     let defaultLet: Int = 1 
     var noTypeAnotation = 1
+    var noTypeAnotationString = "hoge"
 }`
       },
       computed: {
@@ -88,6 +89,7 @@
               .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
               .replace(/(: .*\?).*/g, '$1 = nil') // optional
               .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()') // custom type
+              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "') // no type anotation string
               .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
               .trim()
             ) 
@@ -113,6 +115,7 @@
           lines = text.split("\n")
           parameters = lines
             .map(line => line
+              .replace(/^([a-z|A-Z|0-9|\.]*) = ".*/g, '$1: String') // no type anotation string
               .replace(/ =.*/g, '') // remove default value
               .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
