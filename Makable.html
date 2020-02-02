@@ -28,7 +28,7 @@
   </p>
   <h3>Equatable</h3>
   <p style="white-space: pre-line">
-    <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
+    <pre class="prettyprint"><code>{{ text | remove | equatable(typeName) }}</code></pre>
   </p>
   <h3>Debug</h3>
   <p><pre class="prettyprint"><code>typeName: {{ typeName }}</code></p>
@@ -132,6 +132,29 @@
         ${parameters}
     ) {
         ${body}
+    }
+}` 
+        },
+        equatable: function(text, typeName) {
+          lines = text.split("\n")
+          parameters = lines
+            .map(line => line
+              .replace(/ =.*/g, '') // remove default value
+              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+              .trim()
+            )
+            .join(',\n        ')
+          body = lines
+            .map(line => line
+              .replace(/:.*/g, '')
+              .replace(/ =.*/g, '')
+            )
+            .map(line => "lhs." + line + " == " + "rhs." + line)
+            .join(" &&\n            ")
+          return `extension ${typeName}: Equatable {
+    static func == (lhs: ${typeName}, rhs: ${typeName}) -> Bool {
+        return 
+            ${body}
     }
 }` 
         }
