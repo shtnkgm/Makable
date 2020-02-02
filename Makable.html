@@ -5,6 +5,11 @@
 <meta charset="utf-8">
 <meta name="description" content="Free online code generator for Swift">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/css/uikit.min.css" />
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit-icons.min.js"></script>
 <!-- import Vue.js -->
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <!-- import google / code-prettify -->
@@ -18,10 +23,10 @@
 </head>
 <body style="background-color: #ffffff;">
 
-<div id="app">
+<div id="app" class="uk-container">
   <h1>Swift Code Generator</h1>
   <h3>Source Code</h3>
-  <textarea v-model="text" placeholder="past your code here"></textarea>
+  <textarea class="uk-textarea" v-model="text" placeholder="past your code here"></textarea>
   <h3>Factory Method</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
