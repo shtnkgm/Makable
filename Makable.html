@@ -22,20 +22,20 @@
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
   </p>
-  <!-- <h3>Memberwise Initializer</h3>
+  <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
   </p>
   <h3>Equatable</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove }}</code></pre>
-  </p> -->
+  </p>
   <h3>Debug</h3>
   <p><pre class="prettyprint"><code>typeName: {{ typeName }}</code></p>
 </div>
 
 <script>
-  new Vue({
+  var app = new Vue({
       el: '#app',
       data: {
         text: `public final class MyClass: MyProtocol {
