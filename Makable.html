@@ -30,6 +30,10 @@
   <p style="white-space: pre-line">
     <pre class="prettyprint"><code>{{ text | remove | equatable(typeName) }}</code></pre>
   </p>
+  <h3>Matchable for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint"><code>{{ text | remove | matchable(typeName) }}</code></pre>
+  </p>
 </div>
 
 <script>
@@ -156,6 +160,28 @@
     static func == (lhs: ${typeName}, rhs: ${typeName}) -> Bool {
         return 
             ${body}
+    }
+}` 
+        },
+        matchable: function(text, typeName) {
+          lines = text.split("\n")
+          parameters = lines
+            .map(line => line
+              .replace(/ =.*/g, '') // remove default value
+              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+              .trim()
+            )
+            .join(',\n        ')
+          body = lines
+            .map(line => line
+              .replace(/:.*/g, '')
+              .replace(/ =.*/g, '')
+            )
+            .map(line => "lhs." + line + " == " + "rhs." + line)
+            .join(" &&\n            ")
+          return `extension ${typeName}: Matchable {
+    public var matcher: ParameterMatcher<${typeName}> {
+        return equal(to: self)
     }
 }` 
         }
