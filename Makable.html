@@ -81,14 +81,14 @@
         remove: function(text) {
           return text
           .split("\n")
-          .filter(line => !line.includes('class') || !line.includes('struct')) // type definition
-          .filter(line => !line.includes('{')) // computed property
-          .filter(line => !(line.includes('let') && line.includes('=')))
-          .filter(line => line.includes('var') || line.includes('let'))
-          .map(line => line.replace(/\/\/.*/g,'')) // comment
-          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, '')) // attribute
-          .map(line => line.replace(/(open|fileprivate|private|internal) /g, '')) // access control
-          .map(line => line.replace(/(let|var) /g, '')) // let var
+          .filter(line => !line.includes('class') || !line.includes('struct'))    // remove type definition
+          .filter(line => !line.includes('{'))                                    // remove computed property
+          .filter(line => !(line.includes('let') && line.includes('=')))          // remove let with default value
+          .filter(line => line.includes('var') || line.includes('let'))           // remove lines without let or var
+          .map(line => line.replace(/\/\/.*/g,''))                                // remove comment
+          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, ''))                     // remove attribute
+          .map(line => line.replace(/(open|fileprivate|private|internal) /g, '')) // remove access control
+          .map(line => line.replace(/(let|var) /g, ''))                           // remove let var
           .map(line => line.trim())
           .join("\n")
         },
@@ -96,14 +96,14 @@
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/Bool$/g, 'Bool = false') // Bool
-              .replace(/(Int|Float|Double)$/g, '$1 = 0') // Int
-              .replace(/String$/g, 'String = ""') // String
-              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
-              .replace(/(: .*\?).*/g, '$1 = nil') // optional
-              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()') // custom type
-              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "') // no type anotation string
-              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
+              .replace(/Bool$/g, 'Bool = false')                                  // Bool
+              .replace(/(Int|Float|Double)$/g, '$1 = 0')                          // Int
+              .replace(/String$/g, 'String = ""')                                 // String
+              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []')                  // Collection
+              .replace(/(: .*\?).*/g, '$1 = nil')                                 // Optional
+              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()')                  // custom type
+              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "')             // no type anotation string
+              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =')              // no type anotation
               .trim()
             ) 
             .join(',\n        ')
@@ -129,8 +129,8 @@
           parameters = lines
             .map(line => line
               .replace(/^([a-z|A-Z|0-9|\.]*) = ".*/g, '$1: String') // no type anotation string
-              .replace(/ =.*/g, '') // remove default value
-              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+              .replace(/ =.*/g, '')                                 // remove default value
+              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>')   // no type anotation
               .trim()
             )
             .join(',\n        ')
@@ -153,7 +153,7 @@
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/ =.*/g, '') // remove default value
+              .replace(/ =.*/g, '')                               // remove default value
               .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
             )
@@ -176,7 +176,7 @@
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/ =.*/g, '') // remove default value
+              .replace(/ =.*/g, '')                               // remove default value
               .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
             )
