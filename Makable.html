@@ -95,6 +95,7 @@
           .join("\n")
         },
         factoryMethod: function(text, typeName) {
+          if (text.length == 0) { return "" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -127,6 +128,7 @@
 }` 
         },
         memberwiseInitializer: function(text, typeName) {
+          if (text.length == 0) { return "" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -152,6 +154,7 @@
 }` 
         },
         equatable: function(text, typeName) {
+          if (text.length == 0) { return "" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
@@ -175,6 +178,7 @@
 }` 
         },
         matchable: function(text, typeName) {
+          if (text.length == 0) { return "" }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
