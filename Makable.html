@@ -103,14 +103,14 @@
         remove: function(text) {
           return text
           .split("\n")
-          .filter(line => !line.includes('class') || !line.includes('struct'))            // remove type definition
-          .filter(line => !line.includes('{'))                                            // remove computed property
-          .filter(line => !(line.includes('let') && line.includes('=')))                  // remove let with default value
-          .filter(line => line.includes('var') || line.includes('let'))                   // remove lines without let or var
-          .map(line => line.replace(/\/\/.*/g,''))                                        // remove comment
-          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, ''))                             // remove attribute
-          .map(line => line.replace(/(open|public|internal|fileprivate|private) /g, ''))  // remove access control
-          .map(line => line.replace(/(let|var) /g, ''))                                   // remove let var
+          .filter(line => !line.includes('class') || !line.includes('struct'))    // remove type definition
+          .filter(line => !line.includes('{'))                                    // remove computed property
+          .filter(line => !(line.includes('let') && line.includes('=')))          // remove let with default value
+          .filter(line => line.includes('var') || line.includes('let'))           // remove lines without let or var
+          .map(line => line.replace(/\/\/.*/g,''))                                // remove comment
+          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, ''))                     // remove attribute
+          .map(line => line.replace(/(open|public|internal|fileprivate|private) /g, '')) // remove access control
+          .map(line => line.replace(/(let|var) /g, ''))                           // remove let var
           .map(line => line.trim())
           .join("\n")
         },
@@ -119,15 +119,15 @@
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/:(| )Bool$/g, ': Bool = false')                             // Bool
-              .replace(/:(| )(Int|Float|Double)$/g, ': $2 = 0')                     // Int
-              .replace(/:(| )String$/g, ': String = ""')                            // String
-              .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")!')  // URL
-              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []')                    // Collection
-              .replace(/(: .*\?).*/g, '$1 = nil')                                   // Optional
-              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = .make()')                 // custom type
-              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "')               // no type anotation string
-              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =')                // no type anotation
+              .replace(/:(| )Bool$/g, ': Bool = false')                           // Bool
+              .replace(/:(| )(Int|Float|Double)$/g, ': $2 = 0')                   // Int
+              .replace(/:(| )String$/g, ': String = ""')                          // String
+              .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")')!// URL
+              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []')                  // Collection
+              .replace(/(: .*\?).*/g, '$1 = nil')                                 // Optional
+              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = $1()')                  // custom type
+              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "')             // no type anotation string
+              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =')              // no type anotation
               .trim()
             ) 
             .join(',\n        ')
@@ -136,7 +136,7 @@
               .replace(/:.*/g, '')
               .replace(/ =.*/g, '')
             )
-            .map(line => line + ": " + line)
+            .map(line => line + " = " + line)
             .join(",\n            ")
           return `extension ${typeName} {
     static func make(
