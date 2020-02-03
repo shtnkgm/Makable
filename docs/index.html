@@ -38,7 +38,7 @@
   </ul>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="demoOnClick">Demo</button>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
-  <textarea class="uk-textarea" v-model="text" placeholder="past your code here"></textarea>
+  <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
   <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
@@ -66,6 +66,12 @@
       el: '#app',
       data: {
         text: '',
+        placeholder: `// Paste code here !
+
+struct Book {
+    let price: Int
+    let title: String
+}`,
         demo: `public final class MyClass: MyProtocol {
     // comment
     @objc private let boolValue: Bool // comment
