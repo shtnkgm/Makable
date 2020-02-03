@@ -29,22 +29,29 @@
 
 <div id="app" class="uk-container">
   <h1><a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a></h1>
+  <p>Code generator for the following methods. Currently in beta.</p>
+  <ul>
+    <li>Memberwise Initializer</li>
+    <li>Factory Method</li>
+    <li>Equatable Implementation</li>
+    <li>Matchable Implementationfor <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
+  </ul>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="demoOnClick">Demo</button>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
   <textarea class="uk-textarea" v-model="text" placeholder="past your code here"></textarea>
-  <h3>Factory Method</h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint lang-swift"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
-  </p>
   <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
   </p>
-  <h3>Equatable</h3>
+  <h3>Factory Method</h3>
+  <p style="white-space: pre-line">
+    <pre class="prettyprint lang-swift"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
+  </p>
+  <h3>Equatable Implementation</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint lang-swift"><code>{{ text | remove | equatable(typeName) }}</code></pre>
   </p>
-  <h3>Matchable for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></h3>
+  <h3>Matchable  Implementation for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint lang-swift"><code>{{ text | remove | matchable(typeName) }}</code></pre>
   </p>
