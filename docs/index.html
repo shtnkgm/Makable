@@ -14,6 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <!-- import google / code-prettify -->
 <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
 <!-- import google / Desert style for code-prettify  -->
 <link rel="stylesheet" href="./desert.css" />
 <!-- import google / lang-swift for code-prettify -->
@@ -93,9 +94,30 @@ struct Book {
 }`
       },
       mounted: function () {
+        prettyPrint();
+        console.log("mounted code syntax highlight")
         this.$nextTick(function () {
         // レンダリングする度に実行
-        PR.prettyPrint();
+        prettyPrint();
+        console.log("mounted code syntax highlight")
+        })
+      },
+      beforeUpdate: function () {
+        prettyPrint();
+        console.log("beforeUpdate code syntax highlight")
+        this.$nextTick(function () {
+        // レンダリングする度に実行
+        prettyPrint();
+        console.log("beforeUpdate code syntax highlight")
+        })
+      },
+      updated: function () {
+        prettyPrint();
+        console.log("updated code syntax highlight")
+        this.$nextTick(function () {
+        // レンダリングする度に実行
+        prettyPrint();
+        console.log("updated code syntax highlight")
         })
       },
       computed: {
