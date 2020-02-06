@@ -115,24 +115,24 @@ struct Book {
         console.log("mounted code syntax highlight")
         })
       },
-      beforeUpdate: function () {
-        prettyPrint();
-        console.log("beforeUpdate code syntax highlight")
-        this.$nextTick(function () {
-        // レンダリングする度に実行
-        prettyPrint();
-        console.log("beforeUpdate code syntax highlight")
-        })
-      },
-      updated: function () {
-        prettyPrint();
-        console.log("updated code syntax highlight")
-        this.$nextTick(function () {
-        // レンダリングする度に実行
-        prettyPrint();
-        console.log("updated code syntax highlight")
-        })
-      },
+      // beforeUpdate: function () {
+      //   prettyPrint();
+      //   console.log("beforeUpdate code syntax highlight")
+      //   this.$nextTick(function () {
+      //   // レンダリングする度に実行
+      //   prettyPrint();
+      //   console.log("beforeUpdate code syntax highlight")
+      //   })
+      // },
+      // updated: function () {
+      //   prettyPrint();
+      //   console.log("updated code syntax highlight")
+      //   this.$nextTick(function () {
+      //   // レンダリングする度に実行
+      //   prettyPrint();
+      //   console.log("updated code syntax highlight")
+      //   })
+      // },
       computed: {
         typeName() {
           return this.text
