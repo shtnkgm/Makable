@@ -40,6 +40,10 @@
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="demoOnClick">Demo</button>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
   <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
+  <div v-if="showAlert" class="uk-alert-danger" uk-alert>
+    <a class="uk-alert-close" uk-close></a>
+    <p>{{alert}}</p>
+</div>
   <h3>Memberwise Initializer</h3>
   <p style="white-space: pre-line">
     <pre class="prettyprint lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
@@ -67,6 +71,8 @@
       el: '#app',
       data: {
         text: '',
+        alert: 'Type name not found!',
+        showAlert: false,
         placeholder: `// Paste code here !
 
 struct Book {
