@@ -37,7 +37,8 @@
     <li>Equatable Implementation</li>
     <li>Matchable Implementationfor <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
   </ul>
-  <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="demoOnClick">Demo</button>
+  <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo1OnClick">Demo 1</button>
+  <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button>
   <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
   <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
   <div v-if="showAlert" class="uk-alert-danger" uk-alert>
@@ -79,7 +80,11 @@ struct Book {
     let price: Int
     let title: String
 }`,
-        demo: `public final class MyClass: MyProtocol {
+        demo1: `struct Book {
+    let price: Int
+    let title: String
+}`,
+        demo2: `public final class MyClass: MyProtocol {
     // comment
     @objc private let boolValue: Bool // comment
     private var intValue: Int
@@ -136,8 +141,11 @@ struct Book {
         }
       },
       methods: {
-        demoOnClick: function(event) {
-          this.text = this.demo
+        demo1OnClick: function(event) {
+          this.text = this.demo1
+        },
+        demo2OnClick: function(event) {
+          this.text = this.demo2
         },
         clearOnClick: function(event) {
           this.text = ''
