@@ -1,7 +1,26 @@
 var app = new Vue({
   el: '#app',
   data: {
-    text: '',
+    text: `public final class MyClass: MyProtocol {
+    // comment
+    @objc private let boolValue: Bool // comment
+    private var intValue: Int
+    internal var optionalValue: Int?
+    open let stringValue: String
+    public let url: URL
+    open let dateValue: Date
+    fileprivate let customType: CustomType
+    var computedPropety: Int {
+      return 0
+    }
+    let collection: [String]
+    let collectionWithNameSpace: [Hoge.Fuga]
+    let dictionary: [String: Int]
+    var defaultVar: Int = 1
+    let defaultLet: Int = 1 
+    var noTypeAnotation = 1
+    var noTypeAnotationString = "hoge"
+}`,
     alert: '',
     showAlert: false,
     placeholder: `// Paste code here !
@@ -28,6 +47,7 @@ struct Book {
     }
     let collection: [String]
     let collectionWithNameSpace: [Hoge.Fuga]
+    let dictionary: [String: Int]
     var defaultVar: Int = 1
     let defaultLet: Int = 1 
     var noTypeAnotation = 1
@@ -87,11 +107,12 @@ struct Book {
           .replace(/:(| )((U|)Int(|8|16|32|64)|Float|Double)$/g, ': $2 = 0') // Int
           .replace(/:(| )String$/g, ': String = ""') // String
           .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")!') // URL
-          .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
+          .replace(/\[([a-zA-Z0-9\.]*): ([a-zA-Z0-9\.]*)\]$/g, '[$1: $2] = [:]') // Dictionary
+          .replace(/\[([a-zA-Z0-9\.]*)\]$/g, '[$1] = []') // Collection
           .replace(/(: .*\?).*/g, '$1 = nil') // Optional
-          .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = .make()') // custom type
-          .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "') // no type anotation string
-          .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
+          .replace(/: ([a-zA-Z0-9\.]*$)/g, ': $1 = .make()') // custom type
+          .replace(/^([a-zA-Z0-9\.]*) = "/g, '$1: String = "') // no type anotation string
+          .replace(/^([a-zA-Z0-9\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
           .trim()
         )
         .join(',\n        ')
@@ -119,9 +140,9 @@ struct Book {
       lines = text.split("\n")
       parameters = lines
         .map(line => line
-          .replace(/^([a-z|A-Z|0-9|\.]*) = ".*/g, '$1: String') // no type anotation string
+          .replace(/^([a-zA-Z0-9\.]*) = ".*/g, '$1: String') // no type anotation string
           .replace(/ =.*/g, '') // remove default value
-          .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+          .replace(/^([a-zA-Z0-9\.]*$)/g, '$1: <#FixMe#>') // no type anotation
           .trim()
         )
         .join(',\n        ')
@@ -140,6 +161,47 @@ struct Book {
     }
 }`
     },
+    decodableInitializer: function (text, typeName) {
+      if (text.length == 0) {
+        return "\n"
+      }
+      lines = text.split("\n")
+      body = lines
+        .map(line => line
+          .replace(/^([a-zA-Z0-9\.]*) = ".*/g, '$1: String')
+          .replace(/ =.*/g, '') // remove default value
+          .replace(/^([a-zA-Z0-9\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+          .replace(/^([a-zA-Z0-9\.]*): \[([a-zA-Z0-9\.]*).*: ([a-zA-Z0-9\.]*).*\]$/g, '$1 = try values.decode(<#FixMe#>.self, forKey: .$1)') // Dictionary
+          .replace(/^([a-zA-Z0-9\.]*): \[([a-zA-Z0-9\.]*).*\]$/g, '$1 = try values.decode([$2].self, forKey: .$1)') // Collection
+          .replace(/^([a-zA-Z0-9\.]*): ([a-zA-Z0-9\.]*).*$/g, '$1 = try values.decode($2.self, forKey: .$1)')
+        )
+        .join("\n        ")
+      return `extension ${typeName}: Decodable {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ${body}
+    }
+}`
+    },
+    encodableImplementation: function (text, typeName) {
+      if (text.length == 0) {
+        return "\n"
+      }
+      lines = text.split("\n")
+      body = lines
+        .map(line => line
+          .replace(/ =.*/g, '') // remove default value
+          .replace(/:.*/g, '') // remove type
+          .replace(/^([a-zA-Z0-9\.]*)$/g, 'try container.encode($1, forKey: .$1)')
+        )
+        .join("\n        ")
+      return `extension ${typeName}: Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        ${body}
+    }
+}`
+    },
     equatable: function (text, typeName) {
       if (text.length == 0) {
         return "\n"
@@ -148,7 +210,7 @@ struct Book {
       parameters = lines
         .map(line => line
           .replace(/ =.*/g, '') // remove default value
-          .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+          .replace(/^([a-zA-Z0-9\.]*$)/g, '$1: <#FixMe#>') // no type anotation
           .trim()
         )
         .join(',\n        ')
@@ -174,7 +236,7 @@ struct Book {
       parameters = lines
         .map(line => line
           .replace(/ =.*/g, '') // remove default value
-          .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
+          .replace(/^([a-zA-Z0-9\.]*$)/g, '$1: <#FixMe#>') // no type anotation
           .trim()
         )
         .join(',\n        ')
