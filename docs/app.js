@@ -45,11 +45,12 @@ struct Book {
   },
   computed: {
     typeName() {
-      return this.text
+      output = this.text
         .split("\n")
         .filter(line => line.includes('class') || line.includes('struct'))
         .join("")
         .replace(/.*(class|struct) ([a-z|A-Z|0-9]+).*/g, '$2')
+      return output.length == 0 ? "<#FixMe#>" : output
     }
   },
   methods: {
