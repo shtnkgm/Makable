@@ -34,15 +34,15 @@ struct Book {
     var noTypeAnotationString = "hoge"
 }`
   },
-  mounted: function () {
-    prettyPrint();
-    console.log("mounted code syntax highlight")
-    this.$nextTick(function () {
-      // レンダリングする度に実行
-      prettyPrint();
-      console.log("mounted code syntax highlight")
-    })
-  },
+  // mounted: function () {
+  //   prettyPrint();
+  //   console.log("mounted code syntax highlight")
+  //   this.$nextTick(function () {
+  //     // レンダリングする度に実行
+  //     prettyPrint();
+  //     console.log("mounted code syntax highlight")
+  //   })
+  // },
   computed: {
     typeName() {
       output = this.text
