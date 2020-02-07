@@ -35,12 +35,8 @@ struct Book {
 }`
   },
   // mounted: function () {
-  //   prettyPrint();
-  //   console.log("mounted code syntax highlight")
   //   this.$nextTick(function () {
-  //     // レンダリングする度に実行
-  //     prettyPrint();
-  //     console.log("mounted code syntax highlight")
+  //     hljs.initHighlighting()
   //   })
   // },
   computed: {
