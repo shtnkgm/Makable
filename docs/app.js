@@ -84,7 +84,7 @@ struct Book {
       parameters = lines
         .map(line => line
           .replace(/:(| )Bool$/g, ': Bool = false') // Bool
-          .replace(/:(| )(Int|Float|Double)$/g, ': $2 = 0') // Int
+          .replace(/:(| )((U|)Int(|8|16|32|64)|Float|Double)$/g, ': $2 = 0') // Int
           .replace(/:(| )String$/g, ': String = ""') // String
           .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")!') // URL
           .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
