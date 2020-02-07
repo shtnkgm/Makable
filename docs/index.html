@@ -19,13 +19,17 @@
 
   <div id="app" class="uk-container">
     <h1><a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a></h1>
-    <p>Code generator for the following methods. Currently in beta.</p>
-    <ul>
-      <li>Memberwise Initializer</li>
-      <li>Factory Method</li>
-      <li>Equatable Implementation</li>
-      <li>Matchable Implementationfor <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
-    </ul>
+    <article class="uk-comment uk-comment-primary">
+      <div class="uk-comment-body uk-text-small">
+        <p>Code generator for the following methods. Currently in β version.</p>
+        <ul>
+          <li>Memberwise Initializer</li>
+          <li>Factory Method</li>
+          <li>Equatable Implementation</li>
+          <li>Matchable Implementation for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
+        </ul>
+      </div>
+    </article>
     <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo1OnClick">Demo 1</button>
     <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button>
     <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
@@ -38,7 +42,8 @@
     </template>
     <h3>Memberwise Initializer</h3>
     <p style="white-space: pre-line">
-      <pre class="hljs lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
+      <pre
+        class="hljs lang-swift uk-text-small"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
     </p>
     <h3>Factory Method</h3>
     <p style="white-space: pre-line">
