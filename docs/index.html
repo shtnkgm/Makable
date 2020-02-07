@@ -1,76 +1,78 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Swift Code Generator</title>
-<meta charset="utf-8">
-<meta name="description" content="Free online code generator for Swift">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/css/uikit.min.css" />
-<!-- UIkit JS -->
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit-icons.min.js"></script>
-<!-- import Vue.js -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<!-- import google / code-prettify -->
-<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
-<!-- import google / Desert style for code-prettify  -->
-<link rel="stylesheet" href="./desert.css" />
-<!-- import google / lang-swift for code-prettify -->
-<script src="./lang-swift.js"></script>
-<style>
-  textarea {
+  <title>Swift Code Generator</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Free online code generator for Swift">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/css/uikit.min.css" />
+  <!-- UIkit JS -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/js/uikit-icons.min.js"></script>
+  <!-- import Vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <!-- import google / code-prettify -->
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <!-- import google / Desert style for code-prettify  -->
+  <link rel="stylesheet" href="./desert.css" />
+  <!-- import google / lang-swift for code-prettify -->
+  <script src="./lang-swift.js"></script>
+  <style>
+    textarea {
       width: 400px;
       height: 230px;
-  }
-</style>
+    }
+  </style>
 </head>
+
 <body style="background-color: #ffffff;">
 
-<div id="app" class="uk-container">
-  <h1><a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a></h1>
-  <p>Code generator for the following methods. Currently in beta.</p>
-  <ul>
-    <li>Memberwise Initializer</li>
-    <li>Factory Method</li>
-    <li>Equatable Implementation</li>
-    <li>Matchable Implementationfor <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
-  </ul>
-  <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo1OnClick">Demo 1</button>
-  <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button>
-  <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
-  <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
-  <template v-if="alert.length > 0">
-  <div class="uk-alert-danger" uk-alert>
-    <a class="uk-alert-close" uk-close></a>
-    <p>{{alert}}</p>
+  <div id="app" class="uk-container">
+    <h1><a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a></h1>
+    <p>Code generator for the following methods. Currently in beta.</p>
+    <ul>
+      <li>Memberwise Initializer</li>
+      <li>Factory Method</li>
+      <li>Equatable Implementation</li>
+      <li>Matchable Implementationfor <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></li>
+    </ul>
+    <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo1OnClick">Demo 1</button>
+    <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button>
+    <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
+    <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
+    <template v-if="alert.length > 0">
+      <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>{{alert}}</p>
+      </div>
+    </template>
+    <h3>Memberwise Initializer</h3>
+    <p style="white-space: pre-line">
+      <pre class="prettyprint lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
+    </p>
+    <h3>Factory Method</h3>
+    <p style="white-space: pre-line">
+      <pre class="prettyprint lang-swift"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
+    </p>
+    <h3>Equatable Implementation</h3>
+    <p style="white-space: pre-line">
+      <pre class="prettyprint lang-swift"><code>{{ text | remove | equatable(typeName) }}</code></pre>
+    </p>
+    <h3>Matchable Implementation for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></h3>
+    <p style="white-space: pre-line">
+      <pre class="prettyprint lang-swift"><code>{{ text | remove | matchable(typeName) }}</code></pre>
+    </p>
+    <hr>
+    <div class="uk-margin-auto">
+      <p>Copyright 2020 @shtnkgm. All Rights Reserved.</p>
+    </div>
   </div>
-  </template>
-  <h3>Memberwise Initializer</h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint lang-swift"><code>{{ text | remove | memberwiseInitializer(typeName) }}</code></pre>
-  </p>
-  <h3>Factory Method</h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint lang-swift"><code>{{ text | remove | factoryMethod(typeName) }}</code></pre>
-  </p>
-  <h3>Equatable Implementation</h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint lang-swift"><code>{{ text | remove | equatable(typeName) }}</code></pre>
-  </p>
-  <h3>Matchable  Implementation for <a href="https://github.com/Brightify/Cuckoo">Cuckoo</a></h3>
-  <p style="white-space: pre-line">
-    <pre class="prettyprint lang-swift"><code>{{ text | remove | matchable(typeName) }}</code></pre>
-  </p>
-  <hr>
-  <div class="uk-margin-auto">
-  <p>Copyright 2020 @shtnkgm. All Rights Reserved.</p>
-  </div>
-</div>
 
-<script>
-  var app = new Vue({
+  <script>
+    var app = new Vue({
       el: '#app',
       data: {
         text: '',
@@ -110,9 +112,9 @@ struct Book {
         prettyPrint();
         console.log("mounted code syntax highlight")
         this.$nextTick(function () {
-        // レンダリングする度に実行
-        prettyPrint();
-        console.log("mounted code syntax highlight")
+          // レンダリングする度に実行
+          prettyPrint();
+          console.log("mounted code syntax highlight")
         })
       },
       // beforeUpdate: function () {
@@ -137,53 +139,56 @@ struct Book {
         typeName() {
           return this.text
             .split("\n")
-            .filter(line => line.includes('class') || line.includes('struct') )
+            .filter(line => line.includes('class') || line.includes('struct'))
             .join("")
             .replace(/.*(class|struct) ([a-z|A-Z|0-9]+).*/g, '$2')
         }
       },
       methods: {
-        demo1OnClick: function(event) {
+        demo1OnClick: function (event) {
           this.text = this.demo1
         },
-        demo2OnClick: function(event) {
+        demo2OnClick: function (event) {
           this.text = this.demo2
         },
-        clearOnClick: function(event) {
+        clearOnClick: function (event) {
           this.text = ''
         }
       },
       filters: {
-        remove: function(text) {
+        remove: function (text) {
           return text
-          .split("\n")
-          .filter(line => !line.includes('class') || !line.includes('struct'))            // remove type definition
-          .filter(line => !line.includes('{'))                                            // remove computed property
-          .filter(line => !(line.includes('let') && line.includes('=')))                  // remove let with default value
-          .filter(line => line.includes('var') || line.includes('let'))                   // remove lines without let or var
-          .map(line => line.replace(/\/\/.*/g,''))                                        // remove comment
-          .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, ''))                             // remove attribute
-          .map(line => line.replace(/(open|public|internal|fileprivate|private) /g, ''))  // remove access control
-          .map(line => line.replace(/(let|var) /g, ''))                                   // remove let var
-          .map(line => line.trim())
-          .join("\n")
+            .split("\n")
+            .filter(line => !line.includes('class') || !line.includes('struct')) // remove type definition
+            .filter(line => !line.includes('{')) // remove computed property
+            .filter(line => !(line.includes('let') && line.includes('='))) // remove let with default value
+            .filter(line => line.includes('var') || line.includes('let')) // remove lines without let or var
+            .map(line => line.replace(/\/\/.*/g, '')) // remove comment
+            .map(line => line.replace(/@[a-z|A-Z|0-9]* /g, '')) // remove attribute
+            .map(line => line.replace(/(open|public|internal|fileprivate|private) /g,
+            '')) // remove access control
+            .map(line => line.replace(/(let|var) /g, '')) // remove let var
+            .map(line => line.trim())
+            .join("\n")
         },
-        factoryMethod: function(text, typeName) {
-          if (text.length == 0) { return "\n" }
+        factoryMethod: function (text, typeName) {
+          if (text.length == 0) {
+            return "\n"
+          }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/:(| )Bool$/g, ': Bool = false')                             // Bool
-              .replace(/:(| )(Int|Float|Double)$/g, ': $2 = 0')                     // Int
-              .replace(/:(| )String$/g, ': String = ""')                            // String
-              .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")!')  // URL
-              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []')                    // Collection
-              .replace(/(: .*\?).*/g, '$1 = nil')                                   // Optional
-              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = .make()')                 // custom type
-              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "')               // no type anotation string
-              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =')                // no type anotation
+              .replace(/:(| )Bool$/g, ': Bool = false') // Bool
+              .replace(/:(| )(Int|Float|Double)$/g, ': $2 = 0') // Int
+              .replace(/:(| )String$/g, ': String = ""') // String
+              .replace(/:(| )URL$/g, ': URL = URL(string: "https://sample.com")!') // URL
+              .replace(/\[([a-z|A-Z|0-9|\.]*)\]$/g, '[$1] = []') // Collection
+              .replace(/(: .*\?).*/g, '$1 = nil') // Optional
+              .replace(/: ([a-z|A-Z|0-9|\.]*$)/g, ': $1 = .make()') // custom type
+              .replace(/^([a-z|A-Z|0-9|\.]*) = "/g, '$1: String = "') // no type anotation string
+              .replace(/^([a-z|A-Z|0-9|\.]*) =/g, '$1: <#FixMe#> =') // no type anotation
               .trim()
-            ) 
+            )
             .join(',\n        ')
           body = lines
             .map(line => line
@@ -200,16 +205,18 @@ struct Book {
             ${body}
         )
     }
-}` 
+}`
         },
-        memberwiseInitializer: function(text, typeName) {
-          if (text.length == 0) { return "\n" }
+        memberwiseInitializer: function (text, typeName) {
+          if (text.length == 0) {
+            return "\n"
+          }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
               .replace(/^([a-z|A-Z|0-9|\.]*) = ".*/g, '$1: String') // no type anotation string
-              .replace(/ =.*/g, '')                                 // remove default value
-              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>')   // no type anotation
+              .replace(/ =.*/g, '') // remove default value
+              .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
             )
             .join(',\n        ')
@@ -226,14 +233,16 @@ struct Book {
     ) {
         ${body}
     }
-}` 
+}`
         },
-        equatable: function(text, typeName) {
-          if (text.length == 0) { return "\n" }
+        equatable: function (text, typeName) {
+          if (text.length == 0) {
+            return "\n"
+          }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/ =.*/g, '')                               // remove default value
+              .replace(/ =.*/g, '') // remove default value
               .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
             )
@@ -250,14 +259,16 @@ struct Book {
         return 
             ${body}
     }
-}` 
+}`
         },
-        matchable: function(text, typeName) {
-          if (text.length == 0) { return "\n" }
+        matchable: function (text, typeName) {
+          if (text.length == 0) {
+            return "\n"
+          }
           lines = text.split("\n")
           parameters = lines
             .map(line => line
-              .replace(/ =.*/g, '')                               // remove default value
+              .replace(/ =.*/g, '') // remove default value
               .replace(/^([a-z|A-Z|0-9|\.]*$)/g, '$1: <#FixMe#>') // no type anotation
               .trim()
             )
@@ -273,11 +284,12 @@ struct Book {
     public var matcher: ParameterMatcher<${typeName}> {
         return equal(to: self)
     }
-}` 
+}`
         }
       }
-  });
-</script>
+    });
+  </script>
 
 </body>
+
 </html>
