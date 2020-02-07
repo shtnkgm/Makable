@@ -1,26 +1,7 @@
 var app = new Vue({
   el: '#app',
   data: {
-    text: `public final class MyClass: MyProtocol {
-    // comment
-    @objc private let boolValue: Bool // comment
-    private var intValue: Int
-    internal var optionalValue: Int?
-    open let stringValue: String
-    public let url: URL
-    open let dateValue: Date
-    fileprivate let customType: CustomType
-    var computedPropety: Int {
-      return 0
-    }
-    let collection: [String]
-    let collectionWithNameSpace: [Hoge.Fuga]
-    let dictionary: [String: Int]
-    var defaultVar: Int = 1
-    let defaultLet: Int = 1 
-    var noTypeAnotation = 1
-    var noTypeAnotationString = "hoge"
-}`,
+    text: ``,
     alert: '',
     showAlert: false,
     placeholder: `// Paste code here !
