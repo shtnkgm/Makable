@@ -146,7 +146,23 @@ struct Book {
     var noTypeAnotation = 1
     var noTypeAnotationString = "hoge"
     var noTypeAnotationBool = true
-}`
+}`,
+    memberwiseInitializer: '',
+    factoryMethod: '',
+    decodableInitializer: '',
+    encodableImplementation: '',
+    equatableImplementation: '',
+    matchableImplementation: ''
+  },
+  watch: {
+    text: function (val) {
+      this.memberwiseInitializer = this.makeMemberwiseInitializer(this.type)
+      this.factoryMethod = this.makeFactoryMethod(this.type)
+      this.decodableInitializer = this.makeDecodableInitializer(this.type)
+      this.encodableImplementation = this.makeEncodableImplementation(this.type)
+      this.equatableImplementation = this.makeEquatableImplementation(this.type)
+      this.matchableImplementation = this.makeMatchableImplementation(this.type)
+    }
   },
   // mounted: function () {
   //   this.$nextTick(function () {
@@ -187,10 +203,8 @@ struct Book {
     },
     clearOnClick: function (event) {
       this.text = ''
-    }
-  },
-  filters: {
-    memberwiseInitializer: function (text, type) {
+    },
+    makeMemberwiseInitializer: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
@@ -208,7 +222,7 @@ struct Book {
     }
 }`
     },
-    factoryMethod: function (text, type) {
+    makeFactoryMethod: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
@@ -228,7 +242,7 @@ struct Book {
     }
 }`
     },
-    decodableInitializer: function (text, type) {
+    makeDecodableInitializer: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
@@ -242,11 +256,10 @@ struct Book {
     }
 }`
     },
-    encodableImplementation: function (text, type) {
+    makeEncodableImplementation: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
-      lines = text.split("\n")
       body = type.storedProperties
         .map(line => `try container.encode(${line.propertyName}, forKey: .${line.propertyName})`)
         .join("\n        ")
@@ -257,7 +270,7 @@ struct Book {
     }
 }`
     },
-    equatable: function (text, type) {
+    makeEquatableImplementation: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
@@ -271,7 +284,7 @@ struct Book {
     }
 }`
     },
-    matchable: function (text, type) {
+    makeMatchableImplementation: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
@@ -281,5 +294,8 @@ struct Book {
     }
 }`
     }
+  },
+  filters: {
+
   }
 });
