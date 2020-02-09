@@ -190,23 +190,8 @@ struct Book {
     }
   },
   filters: {
-    remove: function (text) {
-      return text
-        .split("\n")
-        .filter(line => !line.includes('class') || !line.includes('struct')) // remove type definition
-        .filter(line => !line.includes('{')) // remove computed property
-        .filter(line => !(line.includes('let') && line.includes('='))) // remove let with default value
-        .filter(line => line.includes('var') || line.includes('let')) // remove lines without let or var
-        .map(line => line.replace(/\/\/.*/g, '')) // remove comment
-        .map(line => line.replace(/@[a-zA-Z0-9]* /g, '')) // remove attribute
-        .map(line => line.replace(/(open|public|internal|fileprivate|private) /g,
-          '')) // remove access control
-        .map(line => line.replace(/(let|var) /g, '')) // remove let var
-        .map(line => line.trim())
-        .join("\n")
-    },
     memberwiseInitializer: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       parameters = type.storedProperties
@@ -224,7 +209,7 @@ struct Book {
 }`
     },
     factoryMethod: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       parameters = type.storedProperties
@@ -244,7 +229,7 @@ struct Book {
 }`
     },
     decodableInitializer: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       body = type.storedProperties
@@ -258,7 +243,7 @@ struct Book {
 }`
     },
     encodableImplementation: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       lines = text.split("\n")
@@ -273,7 +258,7 @@ struct Book {
 }`
     },
     equatable: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       body = type.storedProperties
@@ -287,7 +272,7 @@ struct Book {
 }`
     },
     matchable: function (text, type) {
-      if (text.length == 0) {
+      if (type.rawText.length == 0) {
         return "\n"
       }
       return `extension ${type.typeName}: Matchable {
