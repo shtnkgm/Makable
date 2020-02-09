@@ -126,20 +126,16 @@ struct Book {
     let price: Int
     let title: String
 }`,
-    demo2: `public final class MyClass: MyProtocol {
-    // comment
-    @objc private let boolValue: Bool // comment
-    private var intValue: Int
-    internal var optionalValue: Int?
-    open let stringValue: String
-    public let url: URL
-    open let dateValue: Date
-    fileprivate let customType: CustomType
-    var computedPropety: Int {
-      return 0
-    }
-    let collection: [String]
-    let collectionWithNameSpace: [Hoge.Fuga]
+    demo2: `class MyClass: MyProtocol {
+    let bool: Bool // comment
+    var int: Int
+    var optional: Int?
+    let string: String
+    let url: URL
+    let date: Date
+    let customType: CustomType
+    var computed: Int { return 0 }
+    let collection: [Hoge.Fuga]
     let dictionary: [String: Int]
     var defaultVar: Int = 1
     let defaultLet: Int = 1
