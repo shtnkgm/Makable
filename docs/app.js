@@ -1,3 +1,18 @@
+class Type {
+  constructor(name, properties) {
+    this.name = name;
+    this.properties = properties;
+  }
+}
+
+class Property {
+  constructor(name, typeName, defaultValue) {
+    this.name = name;
+    this.typeName = typeName;
+    this.defaultValue = defaultValue;
+  }
+}
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -30,7 +45,7 @@ struct Book {
     let collectionWithNameSpace: [Hoge.Fuga]
     let dictionary: [String: Int]
     var defaultVar: Int = 1
-    let defaultLet: Int = 1 
+    let defaultLet: Int = 1
     var noTypeAnotation = 1
     var noTypeAnotationString = "hoge"
 }`
@@ -48,6 +63,44 @@ struct Book {
         .join("")
         .replace(/.*(class|struct) ([a-z|A-Z|0-9]+).*/g, '$2')
       return output.length == 0 ? "<#FixMe#>" : output
+    },
+    storedPropertyLines() {
+      return this.text
+        .split("\n")
+        .filter(line => !line.includes('class') || !line.includes('struct')) // remove type definition
+        .filter(line => !line.includes('{')) // remove computed property
+        .filter(line => !(line.includes('let') && line.includes('='))) // remove let with default value
+        .filter(line => line.includes('var') || line.includes('let')) // remove lines without let or var
+        .join("\n")
+    },
+    normalizedText() {
+      return this.storedPropertyLines
+        .split("\n")
+        .map(function (line) {
+          line
+          // .replace(/\/\/.*/g, '') // remove comment
+          // .replace(/@[a-z|A-Z|0-9]* /g, '') // remove attribute
+          // .replace(/(open|public|internal|fileprivate|private) /g, '') // remove access control
+          // .replace(/(let|var) /g, '') // remove let var
+          // .replace(/([a-z|A-Z|0-9]*) = "(.*)"$/g, '$1: String = $2')
+          // .trim()
+        })
+        .join("\n")
+    },
+    properties() {
+      return this.normalizedText
+        .split("\n")
+        .map(function (line) {
+          const propertyName = line.match(/^([a-z|A-Z|0-9]*):/)[1]
+          const propertyTypeName = line.match(/: ([a-z|A-Z|0-9]*)/)[1]
+          const propertyDefaultValue = line.match(/= ([a-z|A-Z|0-9]*)$/)[1]
+          const property = new Property(propertyName, propertyTypeName, propertyDefaultValue)
+          return property
+        });
+    },
+    type() {
+      const type = new Type(this.typeName, this.properties)
+      return type
     }
   },
   methods: {
@@ -204,7 +257,7 @@ struct Book {
         .join(" &&\n            ")
       return `extension ${typeName}: Equatable {
     static func == (lhs: ${typeName}, rhs: ${typeName}) -> Bool {
-        return 
+        return
             ${body}
     }
 }`
