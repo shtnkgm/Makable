@@ -149,8 +149,7 @@ struct Book {
 }`,
     memberwiseInitializer: '',
     factoryMethod: '',
-    decodableInitializer: '',
-    encodableImplementation: '',
+    codableImplementation: '',
     equatableImplementation: '',
     matchableImplementation: ''
   },
@@ -158,8 +157,7 @@ struct Book {
     text: function (val) {
       this.memberwiseInitializer = this.makeMemberwiseInitializer(this.type)
       this.factoryMethod = this.makeFactoryMethod(this.type)
-      this.decodableInitializer = this.makeDecodableInitializer(this.type)
-      this.encodableImplementation = this.makeEncodableImplementation(this.type)
+      this.codableImplementation = this.makeCodableImplementation(this.type)
       this.equatableImplementation = this.makeEquatableImplementation(this.type)
       this.matchableImplementation = this.makeMatchableImplementation(this.type)
     }
@@ -242,31 +240,32 @@ struct Book {
     }
 }`
     },
-    makeDecodableInitializer: function (type) {
+    makeCodableImplementation: function (type) {
       if (type.rawText.length == 0) {
         return "\n"
       }
-      body = type.storedProperties
+      codingKeysCases = type.storedProperties
+        .map(line => `case ${line.propertyName}`)
+        .join("\n        ")
+      decodeBody = type.storedProperties
         .map(line => `${line.propertyName} = try container.decode(${line.typeName}.self, forKey: .${line.propertyName})`)
         .join("\n        ")
-      return `extension ${type.typeName}: Decodable {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        ${body}
-    }
-}`
-    },
-    makeEncodableImplementation: function (type) {
-      if (type.rawText.length == 0) {
-        return "\n"
-      }
-      body = type.storedProperties
+      encodeBody = type.storedProperties
         .map(line => `try container.encode(${line.propertyName}, forKey: .${line.propertyName})`)
         .join("\n        ")
-      return `extension ${type.typeName}: Encodable {
+      return `extension ${type.typeName}: Codable {
+    enum CodingKeys: String, CodingKey {
+        ${codingKeysCases}
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ${decodeBody}
+    }
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        ${body}
+        ${encodeBody}
     }
 }`
     },
