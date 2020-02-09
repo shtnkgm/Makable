@@ -6,12 +6,12 @@ class Type {
   }
 
   static extractTypeName(rawText) {
-    const output = rawText
+    const value = rawText
       .split("\n")
       .filter(line => line.includes('class') || line.includes('struct'))
       .join("")
-      .replace(/.*(class|struct) ([a-zA-Z0-9]+).*/g, '$2')
-    return output.length == 0 ? "<#FixMe#>" : output
+      .replace(/.*(class|struct) ([a-zA-Z0-9]+).*/g, '$2') // remove class or struct
+    return value.length == 0 ? "<#FixMe#>" : value
   }
 
   static extractStoredProperties(rawText) {
