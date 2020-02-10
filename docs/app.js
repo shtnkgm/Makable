@@ -122,7 +122,9 @@ struct Book {
     let price: Int
     let title: String
 }`,
-    demo1: `struct Book {
+    demo1: `// This is a sample code for demo
+
+struct Book {
     let price: Int
     let title: String
 }`,
