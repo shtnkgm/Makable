@@ -17,7 +17,20 @@
 
 <body style="background-color: #ffffff;">
 
-  <div id="app" class="uk-container">
+  <div id="app" class="uk-container uk-container-small">
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+      <div class="uk-navbar-left">
+        <a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a>
+      </div>
+      <div class="uk-navbar-right">
+
+        <ul class="uk-navbar-nav">
+          <li><a href="https://github.com/shtnkgm/SwiftCodeGenerator">GitHub</a></li>
+        </ul>
+
+      </div>
+    </nav>
+
     <h1><a class="uk-link-heading" href="https://shtnkgm.github.io/SwiftCodeGenerator/">Swift Code Generator</a></h1>
     <article class="uk-comment uk-comment-primary">
       <div class="uk-comment-body uk-text-small">
@@ -32,8 +45,8 @@
         </ul>
       </div>
     </article>
-    <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo1OnClick">Demo 1</button>
-    <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button>
+    <button class="uk-button uk-button-primary uk-button-small uk-margin" v-on:click="demo1OnClick">Try it</button>
+    <!-- <button class="uk-button uk-button-secondary uk-button-small uk-margin" v-on:click="demo2OnClick">Demo 2</button> -->
     <button class="uk-button uk-button-default uk-button-small uk-margin" v-on:click="clearOnClick">Clear</button>
     <textarea class="uk-textarea" v-model="text" :placeholder="[[ placeholder ]]"></textarea>
     <template v-if="alert.length > 0">
@@ -43,6 +56,7 @@
       </div>
     </template>
     <template v-if="text.length > 0">
+      <h2>Generated Code</h2>
       <h3>Memberwise Initializer</h3>
       <p style="white-space: pre-line">
         <pre class="hljs lang-swift"><code>{{ memberwiseInitializer }}</code></pre>
