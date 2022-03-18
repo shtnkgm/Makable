@@ -273,7 +273,7 @@ struct Book {
       }
       body = type.storedProperties
         .map(line => `lhs.${line.propertyName} == rhs.${line.propertyName}`)
-        .join(" &&\n            ")
+        .join(" &&\n        ")
       return `extension ${type.typeName}: Equatable {
     static func == (lhs: ${type.typeName}, rhs: ${type.typeName}) -> Bool {
         ${body}    
