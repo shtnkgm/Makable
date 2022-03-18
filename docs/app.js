@@ -232,7 +232,7 @@ struct Book {
     static func make(
         ${parameters}
     ) -> ${type.typeName} {
-        return ${type.typeName}(
+        .init(
             ${body}
         )
     }
@@ -276,8 +276,7 @@ struct Book {
         .join(" &&\n            ")
       return `extension ${type.typeName}: Equatable {
     static func == (lhs: ${type.typeName}, rhs: ${type.typeName}) -> Bool {
-        return
-            ${body}
+        ${body}    
     }
 }`
     },
