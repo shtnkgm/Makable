@@ -231,7 +231,7 @@ struct Book {
       return `extension ${type.typeName} {
     static func make(
         ${parameters}
-    ) -> ${type.typeName} {
+    ) -> Self {
         .init(
             ${body}
         )
@@ -275,7 +275,7 @@ struct Book {
         .map(line => `lhs.${line.propertyName} == rhs.${line.propertyName}`)
         .join(" &&\n        ")
       return `extension ${type.typeName}: Equatable {
-    static func == (lhs: ${type.typeName}, rhs: ${type.typeName}) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         ${body}    
     }
 }`
