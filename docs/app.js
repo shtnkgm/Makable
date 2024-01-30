@@ -153,6 +153,7 @@ struct Book {
   },
   watch: {
     text: function (val) {
+      this.applySyntaxHighlighting();
       this.memberwiseInitializer = this.makeMemberwiseInitializer(this.type)
       this.factoryMethod = this.makeFactoryMethod(this.type)
       this.codableImplementation = this.makeCodableImplementation(this.type)
@@ -191,6 +192,13 @@ struct Book {
     }
   },
   methods: {
+    applySyntaxHighlighting() {
+      this.$nextTick(() => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    },
     demo1OnClick: function (event) {
       this.text = this.demo1
     },
